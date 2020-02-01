@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const colors = require('colors')
 
 const logger = require('./middlewares/logger')
 const connectDB = require('./config/db')
@@ -18,6 +19,9 @@ connectDB()
 
 const app = express()
 
+// Body parser
+app.use(express.json());
+
 //uses logging middleware for development mode
 if (process.env.NODE_ENV === 'development') {
     //app.use(logger);
@@ -31,13 +35,13 @@ const PORT = process.env.PORT || 5000
 
 const server = app.listen(
     PORT,
-    console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+    console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
 )
 
 //handle unhandle promise rejections
 
-process.on('unhandleRejection', (err, promise) => {
-    console.log(`Error: ${err.message}`)
+process.on('unhandledRejection', (err, promise) => {
+    console.log(`Error: ${err.message}`.red)
     // Close server & exit process
     server.close(() => process.exit(1))
 })
