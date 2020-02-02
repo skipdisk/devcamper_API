@@ -1,19 +1,21 @@
 const express = require('express')
-const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 
+//loads environment variables
+const dotenv = require('dotenv').config({
+    path: './config/config.env'
+})
+
+//middlewares
 const logger = require('./middlewares/logger')
 const errorHandler = require('./middlewares/error')
 const connectDB = require('./config/db')
 
+
 //Route files
 const bootcamps = require('./routes/bootcamps')
 
-//load env variables
-dotenv.config({
-    path: './config/config.env'
-})
 
 //Connect to database
 connectDB()
